@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+boto3
+pdf2image
+pillow
