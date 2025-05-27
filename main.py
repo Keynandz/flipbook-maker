@@ -67,7 +67,7 @@ def generate_flipbook_html(image_urls: List[str], flipbook_id: str, video_embeds
     def video_page(page_num, video_id):
         even_or_odd = "even" if page_num % 2 != 0 else "odd"
         iframe_html = f"""
-        <iframe width="560" height="315"
+        <iframe width="100%" height="100%"
             src="https://www.youtube.com/embed/{video_id}"
             frameborder="0" allowfullscreen>
         </iframe>
@@ -117,11 +117,6 @@ def generate_flipbook_html(image_urls: List[str], flipbook_id: str, video_embeds
     <title>PDF Flipbook - {flipbook_id}</title>
     <link rel="stylesheet" href="/static/style.css">
     <style>
-        #book {{
-            width: 800px;
-            height: 600px;
-            margin: 20px auto;
-        }}
         .page-content {{
             width: 100%;
             height: 100%;
@@ -147,17 +142,29 @@ def generate_flipbook_html(image_urls: List[str], flipbook_id: str, video_embeds
     </div>
 
     <script>
-        $(function() {{
-            $('#book').turn({{
-                width: 800,
-                height: 600,
-                autoCenter: true,
-                display: 'double',
-                acceleration: true,
-                elevation: 50,
-                gradients: true,
-            }});
+    function resizeBook() {{
+        const vh = window.innerHeight * 0.9;
+        const bookWidth = vh * (4 / 3);
+        $('#book').turn('size', bookWidth, vh);
+        $('#book').css({{ width: bookWidth + 'px', height: vh + 'px' }});
+    }}
+
+    $(function() {{
+        $('#book').turn({{
+            autoCenter: true,
+            display: 'double',
         }});
+        resizeBook();
+        $(window).on('resize', resizeBook);
+    }});
+
+    $(document).on('keydown', function(e) {{
+        if (e.key === "ArrowLeft") {{
+            $('#book').turn('previous');
+        }} else if (e.key === "ArrowRight") {{
+            $('#book').turn('next');
+        }}
+    }});
     </script>
 </body>
 </html>

@@ -1,9 +1,14 @@
-body{
-	background:#ccc;
+body {
+	overflow: hidden;
+	height: 100%;
+    background: #ccc;
+    margin: 0;
+    padding: 0;
 }
-#book{
-	width:800px;
-	height:500px;
+
+#book {
+	margin: 0 auto;
+	margin-top: 2.5%;
 }
 
 #book .turn-page{
